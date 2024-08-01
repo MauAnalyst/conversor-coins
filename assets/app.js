@@ -1,18 +1,11 @@
-const APIkey = 'https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL';
-
-async function SearchData(){
-    try {
-        const response = await fetch(APIkey);
-        const data = await response.json();
-        //console.log(data.value)
-        return data;
-    }catch (error) {
-        console.error('Erro ao carregar dados:', error);
-        return [];
-    }
-}
-
-
 SearchData().then(dados => {
     console.log(dados)
 })
+
+// tratando o input
+const inputValueCoin = document.querySelectorAll('.container-converter .cx-input .tag-input input[type="text"]');
+
+inputValueCoin.forEach(element => {
+    //element.value = '0,00';
+    UpInputNumber(element);
+});
