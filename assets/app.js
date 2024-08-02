@@ -14,6 +14,6 @@ SearchData().then(dados => {
 const inputValueCoin = document.querySelectorAll('.container-converter .cx-input .tag-input input[type="text"]');
 
 inputValueCoin.forEach(element => {
-    //element.value = '0,00';
+    element.value = '0,00';
     UpInputNumber(element);
 });
