@@ -101,3 +101,44 @@ function UpInputNumber(valorInput){
     });
     
 };
+
+//formantando valores numericos
+function FormataValor(number){
+    let transfSrc = `${parseInt(number)}`;
+    if(transfSrc.length < 4){ //999
+        let src = `${number.toFixed(2)}`;
+
+        return src.replace(".",",");
+
+    } else if(transfSrc.length === 4 && transfSrc.length < 5){ //1.000
+        let src = `${number.toFixed(2)}`;
+        let srcAntes = src.substring(0,1);
+        let srcDps = src.substring(1, src.length).replace(".",",");
+        let vlFinal = `${srcAntes}.${srcDps}`;
+        
+        return vlFinal;
+
+    } else if (transfSrc.length === 5 && transfSrc.length < 6){
+        let src = `${number.toFixed(2)}`;
+        let srcAntes = src.substring(0,2);
+        let srcDps = src.substring(2, src.length).replace(".",",");
+        let vlFinal = `${srcAntes}.${srcDps}`;
+        
+        return vlFinal;
+    } else if (transfSrc.length === 6 && transfSrc.length < 7){
+        let src = `${number.toFixed(2)}`;
+        let srcAntes = src.substring(0,3);
+        let srcDps = src.substring(3, src.length).replace(".",",");
+        let vlFinal = `${srcAntes}.${srcDps}`;
+        
+        return vlFinal;
+    } else if (transfSrc.length === 7 && transfSrc.length < 8){
+        let src = `${number.toFixed(2)}`;
+        let srcAntes = src.substring(0,1);
+        let srcMeio = src.substring(1,4);
+        let srcDps = src.substring(4, src.length).replace(".",",");
+        let vlFinal = `${srcAntes}.${srcMeio}.${srcDps}`;
+        
+        return vlFinal;
+    }
+};
