@@ -15,21 +15,28 @@ async function SearchData(){
 
 //deixa o input melhor
 function UpInputNumber(valorInput){
+    
+    //digitando no input
     valorInput.addEventListener("input", function(event) {
-        var valorDigitado = valorInput.value.trim().replace(/[^0-9]/g, "");
+        const regex = /^[0-9.,]*$/;
+        if (!event.data.match(regex)){
+            return valorInput.value = '0,00';
+            //console.log('caiu aq?')
+        };
 
-        console.log(`0,0${valorDigitado}`)
+        let valorDigitado = valorInput.value.trim().replace(/[^0-9]/g, "");
 
-        if (valorDigitado.length == 1 && valorDigitado == '0,0') {
-            valorInput.value = "0,0" + valorDigitado;
-            
-        } else if (valorDigitado.length == 2 && valorDigitado == '0,') {
-            valorInput.value = "0," + valorDigitado; 
+        if (valorDigitado.startsWith("000", 0) || valorDigitado.length == 1) {
+            digitoAnterior = event.data;
+            return valorInput.value = "0,0" + event.data;
+
+        } else if (valorDigitado.startsWith("00", 0)) {
+            return valorInput.value = "0," + digitoAnterior + event.data; 
             
         } else {
             if (valorDigitado.length > 2) {
                 valorDigitado = valorDigitado.replace(/^0+/, '');
-            }
+            };
             
             let parteInteira = valorDigitado.slice(0, -2) || "0";
             let parteDecimal = valorDigitado.slice(-2);
@@ -38,13 +45,31 @@ function UpInputNumber(valorInput){
 
             if (parteInteira.length < 2) {
                 parteInteira = "" + parteInteira;
-            }
+            };
             
             valorInput.value = parteInteira + "," + parteDecimal;
+        };
 
-            if( valorInput.value === '0,00'){
-                valorInput.value = '';
-            }
-        }
+        
     });
-}
+
+    //deletando input
+    valorInput.addEventListener('keydown', function(e){
+        //sconsole.log('asd')
+        if (e.key === 'Delete') {
+            valorInput.value = '0,00'
+        } else if (e.key === 'Backspace') {
+            let valorDigitado = valorInput.value.trim().replace(/[^0-9]/g, "");
+            let ValorDigitadoAjuste = +valorDigitado;
+            //console.log(ValorDigitadoAjuste.toString().slice(0,-1));
+
+            if (valorDigitado.length === 3){
+                valorInput.value = "0,0" + ValorDigitadoAjuste.toString().slice(0,-1);
+            } else if(valorDigitado.length === 2){
+                valorInput.value = "0," + ValorDigitadoAjuste.toString();
+            };
+
+        };
+    });
+    
+};
