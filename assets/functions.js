@@ -71,5 +71,33 @@ function UpInputNumber(valorInput){
 
         };
     });
+
+    valorInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Backspace') {
+            e.preventDefault(); // Evita o comportamento padrão do Backspace
+            let valor = valorInput.value.replace(/[^0-9]/g, "");
+            if (valor.length > 0) {
+                valor = valor.slice(0, -1);
+                valorInput.value = valor;
+                
+                // Ajusta o formato
+                if (valor.length === 0) {
+                    valorInput.value = "0,00";
+                } else if (valor.length === 1) {
+                    valorInput.value = "0,0" + valor;
+                } else if (valor.length === 2) {
+                    valorInput.value = "0," + valor;
+                } else if (valor.length > 2) {
+                    valor = valor.replace(/^0+/, '');
+                    let parteInteira = valor.slice(0, -2) || "0";
+                    let parteDecimal = valor.slice(-2);
+                    parteInteira = parteInteira.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                    valorInput.value = parteInteira + "," + parteDecimal;
+                }
+            } else {
+                valorInput.value = "0,00";
+            }
+        }
+    });
     
 };
