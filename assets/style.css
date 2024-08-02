@@ -35,9 +35,30 @@ header h1 {
 /* --------------------------------------------------- */
 /* --------------------------------------------------- */
 
-section h2 {
-    text-align: center;
+.container-cotacao {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
 }
+
+.container-cotacao .cx-cotacao {
+    background: linear-gradient(to left,#3a50d0, #913ad0);
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    border-radius: 20px;
+}
+
+.container-cotacao .cx-cotacao h2 {
+    margin-top: 5px;
+}
+
+.container-cotacao .cx-cotacao h2 span {
+    margin: 0 10px 0 5px;
+}
+
+/* --------------------------------------------------- */
+/* --------------------------------------------------- */
 
 .container-converter {
     margin-top: 50px;
