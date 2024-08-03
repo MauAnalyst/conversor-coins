@@ -1,4 +1,4 @@
-# conversor-coins
+# conversor-de-moedas
 
 acesso: https://mauanalyst.github.io/conversor-coins/
 
