@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 
 :root {
-    --color-one: #201623;
+    --color-one: #1a1621;
     --color-two: #f3edf5;
 }
 
@@ -13,10 +13,11 @@
 }
 
 body {
-    width: 100%;
+    width: 95%;
+    margin: auto;
     height: 100vh;
     /*background-color: var(--color-two); */
-    background: linear-gradient(#231e2f, #231e2f,#231e2f);
+    background: #1a1621;
     color: #fff;
 }
 
@@ -25,19 +26,41 @@ body {
 
 header {
     text-align: center;
-    padding: 50px 0;
+    padding: 25px 0;
 }
 
 header h1 {
     color: #3a8ad0;
 }
 
+.section-conteudo {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 10px ;
+}
+
+/* --------------------------------------------------- */
+/* --------------------------------------------------- */
+
+/*.section-search .input-search {
+    display: flex;
+    align-items: center;
+} */
+
+.section-search .search {
+    display: flex;
+    align-items: center;
+}
+
+
+
+
 /* --------------------------------------------------- */
 /* --------------------------------------------------- */
 
 .container-cotacao {
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     gap: 20px;
 }
@@ -54,50 +77,73 @@ header h1 {
 }
 
 .container-cotacao .cx-cotacao h2 span {
-    margin: 0 10px 0 5px;
+    margin: 0 10px 0 0;
 }
 
 /* --------------------------------------------------- */
 /* --------------------------------------------------- */
 
+
 .container-converter {
-    margin-top: 50px;
+    position: relative;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 50px;
-
+    gap: 5px;
+    /*background: linear-gradient(to left, #3a8ad0, #3ad0b9); */
+    background: linear-gradient(to right, #6f3ad0, #55b9c0);
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
 }
 
 .container-converter .cx-input {
     display: flex;
     gap: 10px;
-    /*background: linear-gradient(to left, #6f3ad0, #3a8ad0);*/
-    background-color: #3a8ad0;
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);
+    /*background: linear-gradient(to left, #6f3ad0, #3a8ad0);
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);*/
     padding: 30px;
-    border-radius: 20px;
+    border-radius: 20px 20px 0px 0px;
+}
+
+.container-converter .cx-input:nth-child(1){
+    background: linear-gradient(to right, rgba(111, 58, 208, .5) , rgba(85, 192, 172, 0.5));
+    backdrop-filter: saturate(100%) blur(150%);
+    width: 100%;
+    padding-bottom: 50px;
+}
+
+.container-converter .cx-input:nth-child(2) {
+    padding-top: 50px;
 }
 
 .container-converter .replace {
-    background: linear-gradient(to left, #3a8ad0, #3ad0b9);
+    /*backdrop-filter: saturate(150%) blur(3px);*/
     border-radius: 50%;
+    border: 2px solid #fff;
+    position: absolute;
+    transition: all 0.2s ease-in-out;
 }
 
 .container-converter .replace .material-symbols-outlined {
-    font-size: 40px;
+    font-size: 20px;
+    font-weight: 500;
     color: #fff;
-    padding: 10px; 
+    padding: 5px; 
     cursor: pointer;
     transition: all 0.2s ease-in-out;
-    border-radius: 50%;
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);
 }
 
-.container-converter .replace .material-symbols-outlined:hover {
-    transform: rotate(-90deg);
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+.container-converter .replace:hover {
+    background-color: #3a50d0;
+    border: 2px solid #3a50d0;
+    box-shadow: 0px 2px 10px rgba(88, 78, 217, 0.5);
 }
+
+.container-converter .replace:hover .material-symbols-outlined {
+    color: #fff;
+}
+
 
 /* -----  select coin  ----- */
 
@@ -108,11 +154,12 @@ header h1 {
 .container-converter .cx-input .select-coin h3 {
     display: flex;
     align-items: center;
-    font-size: 30px;
+    gap: 1px;
+    font-size: 20px;
 }
 
 .container-converter .cx-input .select-coin h3 .material-symbols-outlined {
-    font-size: 35px;
+    font-size: 20px;
 }
 
 /* -----  input qtd coin  ----- */
@@ -121,7 +168,7 @@ header h1 {
     background-color: inherit;
     color: inherit;
     border: none;
-    font-size: 25px;
+    font-size: 22px;
     max-width: 150px;
 }
 
@@ -138,4 +185,17 @@ header h1 {
 
 .container-converter .cx-input .tag-input input[type="text"]:focus ~.bar-bottom {
     width: 90%;
+}
+
+/* --------------------------------------------------- */
+/* --------------------------------------------------- */
+
+@media screen and (max-width: 648px) {
+    .container-converter {
+        flex-direction: column;
+    }
+
+    .container-cotacao {
+        flex-direction: column;
+    }
 }
