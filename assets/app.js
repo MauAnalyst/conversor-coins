@@ -1,31 +1,13 @@
-SearchData().then(dados => {
-    let array = JSON.stringify(Object.keys(dados))
-    let array2 = JSON.parse(JSON.stringify(Object.entries(dados)))
-
-    //console.log(JSON.parse(array))
-   
-    const ScreenCotacaoUSDBRL = document.querySelector('.container-cotacao .cx-cotacao .value-usdbrl');
-    const ScreenCotacaoEURBRL = document.querySelector('.container-cotacao .cx-cotacao .value-eurbrl');
-    const ScreenCotacaoGBPBRL = document.querySelector('.container-cotacao .cx-cotacao .value-gbpbrl');
-    const ScreenCotacaoBTCBRL = document.querySelector('.container-cotacao .cx-cotacao .value-btcbrl');
-
-
-    ScreenCotacaoUSDBRL.textContent = FormataValor(+dados.USDBRL.ask);
-    ScreenCotacaoEURBRL.textContent = FormataValor(+dados.EURBRL.ask);
-    ScreenCotacaoGBPBRL.textContent = FormataValor(+dados.GBPBRL.ask);
-    ScreenCotacaoBTCBRL.textContent = FormataValor(+dados.BTCBRL.ask);
-
-
-});
+const CoinSelected = document.querySelector('.section-search .search .selected-coin span');
 
 SearchNameMoedas().then(e => {
     const dados = JSON.parse(JSON.stringify(Object.entries(e)));
     const OptionsCoinG = document.querySelector('.section-search .search .input-search ul');
     const SearchOption = document.querySelector('.section-search .search .input-search input[type="search"]');
     const buttoAdd = document.querySelector('.section-search .search .material-symbols-outlined');
-    const CoinSelected = document.querySelector('.section-search .search .selected-coin span');
 
     ListaMoedas(); //adicionando a lista
+    CoinSelected.textContent = 'BRL - Real Brasileiro';
 
     SearchOption.addEventListener('click', function(){
         OptionsCoinG.style.display = 'block';
@@ -106,7 +88,7 @@ SearchNameMoedas().then(e => {
                 dados.forEach(element => {
                     //console.log(removerAcentos(element[1]))
                     let check = `${element[0]} - ${element[1]}`
-                    console.log(check.toUpperCase().includes(value));
+                    //console.log(check.toUpperCase().includes(value));
                     if(element[0].startsWith(value,0) || removerAcentos(element[1]).toUpperCase().startsWith(value,0) || check.toUpperCase().includes(value)){
                         
                         return OptionsCoinG.innerHTML += `<li>${element[0]} - ${element[1]}</li>`;
@@ -186,10 +168,120 @@ SearchNameMoedas().then(e => {
     
 });
 
-// tratando o input
+
+//--------  grafico
+const ctx = document.querySelector('.conteiner-chart #line-chart');
+
+let chartGrap = new Chart(ctx, {
+    type: 'line',
+    data: {
+        //labels: ["jan", "Fev", "Mar", "Abr", "Mai", "jun", "Jul", "Ago", "Set", "out", "Nov", "Dez"],
+        labels: ["jan", "Fev", "Mar", "Abr", "Mai", "jun"],
+        datasets: [{
+            label: "TAXA DE CLIQUES",
+            data: [5, 10, 5, 12, 14, 16],
+            borderColor: 'rgba(255, 255, 255, 0.85)',  // Cor da linha
+            backgroundColor: 'transparent',            // Cor do fundo da linha
+            pointBorderColor: '#fff',                  // Cor da borda dos pontos
+            pointBackgroundColor: '#fff',              // Cor do fundo dos pontos
+            borderWidth: 2,                            // Largura da linha
+            pointRadius: 3                             // Raio dos pontos
+        }]
+    },
+    options: {
+        scales: {
+            x: {
+                ticks: {
+                    color: '#fff'  // Cor do eixo X
+                }
+            },
+            y: {
+                ticks: {
+                    color: '#fff'  // Cor do eixo Y 
+                }
+            }
+        },
+        plugins: {
+            legend: {
+                labels: {
+                    color: '#fff'  // Cor do texto da legenda
+                }
+            }
+        }
+    }
+    
+});
+
+//------- tratando o input do conversor
+
 const inputValueCoin = document.querySelectorAll('.container-converter .cx-input .tag-input input[type="text"]');
+
+//definindos os dados iniciais
 
 inputValueCoin.forEach(element => {
     element.value = '0,00';
     UpInputNumber(element);
 });
+
+SearchNameMoedas().then(dados => {
+    //let arrayKeys = JSON.stringify(Object.keys(dados))
+    //let array = JSON.parse(JSON.stringify(Object.entries(dados)))
+    //console.log(array)
+   
+    const CoinsContacoes = document.querySelectorAll('.container-cotacao .cx-cotacao #coin-selectd-cotacao');
+    const ValueCoinsCotacao = document.querySelectorAll('.container-cotacao .cx-cotacao #value-coin');
+    const coinG = document.querySelectorAll('.container-cotacao .cx-cotacao #coin-global')
+
+    let CoinGSigla = CoinSelected.textContent.split(" ")[0];
+    //console.log(CoinGSigla)
+
+    coinG.forEach(e => {
+        e.textContent = CoinGSigla;
+    });
+
+    let searchCotacoesAtual = [];
+    let searchCoin = [];
+    CoinsContacoes.forEach(e => {
+        //console.log(e.textContent)
+        searchCotacoesAtual.push(`${e.textContent}-${CoinGSigla}`);
+        searchCoin.push(`${e.textContent}${CoinGSigla}`);     
+    });
+    //console.log(searchCoin)
+    
+    const joinedString = searchCotacoesAtual.join(',');
+    //console.log(joinedString)
+
+    SearchData(joinedString).then(data => {
+        /*for (let index = 0; index < searchCoin.length; index++) {
+            const elem = searchCoin[index];
+            console.log(data[elem])
+            
+        } */
+        searchCoin.forEach(e => {
+            /*let CoinCode = data[e].code;
+            let valueCoin = FormataValor(+data[e].ask);
+            //console.log(valueCoin)
+            ValueCoinsCotacao.forEach(elem => {
+                CoinsContacoes.forEach(element => {
+                    //console.log(element.textContent)
+                    if (element.textContent === CoinCode){
+                        elem.textContent = valueCoin;
+                    }
+                })
+                //console.log(elem);
+                //console.log(CoinCode)
+                //elem.textContent = valueCoin;
+            }) */
+        })
+        console.log(data)
+    })
+
+
+    //ScreenCotacaoUSDBRL.textContent = FormataValor(+dados.USDBRL.ask);
+    //ScreenCotacaoEURBRL.textContent = FormataValor(+dados.EURBRL.ask);
+    //ScreenCotacaoGBPBRL.textContent = FormataValor(+dados.GBPBRL.ask);
+    //ScreenCotacaoBTCBRL.textContent = FormataValor(+dados.BTCBRL.ask);
+
+
+});
+
