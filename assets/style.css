@@ -82,11 +82,12 @@ header h1 {
     position: relative;
     z-index: 1;
     transition: all 0.2s ease-in-out;
+    border: 2px solid transparent;
 }
 
 .section-search .search .input-search input[type="search"]:focus {
     outline: none;
-    border-radius: 15px 15px 0 0;
+    /*border-radius: 15px 15px 0 0;*/
 }
 
 .section-search .search .input-search ul {
@@ -100,7 +101,7 @@ header h1 {
     padding: 2px 2px;
     max-height: 600%;
     overflow-y: auto;
-    border-radius: 0 0 15px 15px;
+    border-radius: /*0 0 15px */ 15px;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);
     transition: all 0.2s ease-in-out;
 }
