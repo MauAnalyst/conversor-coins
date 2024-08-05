@@ -1,10 +1,8 @@
 //busca dados da api
-const APIkey = 'https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL';
-const nameMoedas = 'https://economia.awesomeapi.com.br/json/available/uniq'; 
-
-async function SearchData(){
+//const APIvaluesCoins = '';
+async function SearchData(value){
     try {
-        const response = await fetch(APIkey);
+        const response = await fetch(`https://economia.awesomeapi.com.br/last/${value}`);
         const data = await response.json();
         //console.log(data.value)
         return data;
@@ -15,6 +13,7 @@ async function SearchData(){
 };
 
 
+const nameMoedas = 'https://economia.awesomeapi.com.br/json/available/uniq'; 
 async function SearchNameMoedas(){
     try {
         const response = await fetch(nameMoedas);
@@ -26,6 +25,7 @@ async function SearchNameMoedas(){
         return [];
     }
 };
+
 
 //deixa o input melhor
 function UpInputNumber(valorInput){
@@ -101,6 +101,7 @@ function UpInputNumber(valorInput){
     
 };
 
+
 //formantando valores numericos
 function FormataValor(number){
     let transfSrc = `${parseInt(number)}`;
@@ -148,3 +149,4 @@ function removerAcentos(str) {
         .normalize('NFD') // Decompõe caracteres acentuados em caracteres base + acento
         .replace(/[\u0300-\u036f]/g, ''); // Remove os acentos
 }
+
