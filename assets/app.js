@@ -1,5 +1,5 @@
+//definindo a lista para seleção da moeda global
 const CoinSelected = document.querySelector('.section-search .search .selected-coin span');
-
 SearchNameMoedas().then(e => {
     const dados = JSON.parse(JSON.stringify(Object.entries(e)));
     const OptionsCoinG = document.querySelector('.section-search .search .input-search ul');
@@ -14,10 +14,10 @@ SearchNameMoedas().then(e => {
     });
 
     document.addEventListener('click', function(element){
-        if(!SearchOption.contains(element.target) && !OptionsCoinG.contains(element.target)){
+        if(!SearchOption.contains(element.target) && !OptionsCoinG.contains(element.target) && !buttoAdd.contains(element.target)){
             OptionsCoinG.style.display = 'none';
             SearchOption.style.border = '';
-            //ListaMoedas();
+            ListaMoedas();
         }
     });
 
@@ -37,6 +37,7 @@ SearchNameMoedas().then(e => {
 
     buttoAdd.addEventListener('click', function(){
         IncluiCoin();
+        OptionsCoinG.style.display = 'none';
         //SearchOption.style.borderRadius = '15px';
     });
 
@@ -119,42 +120,37 @@ SearchNameMoedas().then(e => {
         if(SearchOption.value === '' || OptionsCoinG.textContent === 'Não encontrado'){
             //console.log(SearchOption.value.length, OptionCoinG.length)
             SearchOption.style.border = '2px solid red';
-            SearchOption.value = '';
+            return SearchOption.value = '';
 
         } else {     
             if(SearchOption.value.length < 2 && OptionCoinG.length !== 1){
                 CoinSelected.textContent = OptionCoinG[0].textContent;
-                SearchOption.value = '';
+                return SearchOption.value = '';
             }
             else if(OptionCoinG.length > 1){
                 OptionCoinG.forEach(element => {
                     let inputValue = SearchOption.value;
                     let checkOptions = removerAcentos(element.textContent).toUpperCase().split(" ");
                     //console.log(checkOptions)
+                    if(element.textContent === inputValue){
+                        CoinSelected.textContent = element.textContent;
+                        return SearchOption.value = '';
+
+                    } 
 
                     for (let index = 0; index < checkOptions.length; index++) {
                         const elem = checkOptions[index];
                         if(elem == inputValue.toUpperCase()){
                             CoinSelected.textContent = element.textContent;
-                            SearchOption.value = '';
+                            return SearchOption.value = '';
                         }
                     };            
-
-                    if(element.textContent === inputValue){
-                        CoinSelected.textContent = element.textContent;
-                        SearchOption.value = '';
-
-                    } else {
-                        CoinSelected.textContent = OptionCoinG[0].textContent;
-                        SearchOption.value = '';
-                        //console.log(OptionCoinG[0].textContent)
-                    }
                 });
 
             } else {
                 OptionCoinG.forEach(element => {
                     CoinSelected.textContent = element.textContent;
-                    SearchOption.value = '';
+                    return SearchOption.value = '';
 
                 });
                 
@@ -178,7 +174,7 @@ let chartGrap = new Chart(ctx, {
         //labels: ["jan", "Fev", "Mar", "Abr", "Mai", "jun", "Jul", "Ago", "Set", "out", "Nov", "Dez"],
         labels: ["jan", "Fev", "Mar", "Abr", "Mai", "jun"],
         datasets: [{
-            label: "TAXA DE CLIQUES",
+            label: "Texto", 
             data: [5, 10, 5, 12, 14, 16],
             borderColor: 'rgba(255, 255, 255, 0.85)',  // Cor da linha
             backgroundColor: 'transparent',            // Cor do fundo da linha
@@ -216,18 +212,20 @@ let chartGrap = new Chart(ctx, {
 
 const inputValueCoin = document.querySelectorAll('.container-converter .cx-input .tag-input input[type="text"]');
 
-//definindos os dados iniciais
-
+//melhorando o input do conversor
 inputValueCoin.forEach(element => {
     element.value = '0,00';
     UpInputNumber(element);
 });
 
+//definindos os dados iniciais
 SearchNameMoedas().then(dados => {
     //let arrayKeys = JSON.stringify(Object.keys(dados))
-    //let array = JSON.parse(JSON.stringify(Object.entries(dados)))
+    let array = JSON.parse(JSON.stringify(Object.entries(dados)))
     //console.log(array)
    
+
+    //---- cotações
     const CoinsContacoes = document.querySelectorAll('.container-cotacao .cx-cotacao #coin-selectd-cotacao');
     const ValueCoinsCotacao = document.querySelectorAll('.container-cotacao .cx-cotacao #value-coin');
     const coinG = document.querySelectorAll('.container-cotacao .cx-cotacao #coin-global')
@@ -251,37 +249,52 @@ SearchNameMoedas().then(dados => {
     const joinedString = searchCotacoesAtual.join(',');
     //console.log(joinedString)
 
+
+    //definindo os valores 
     SearchData(joinedString).then(data => {
-        /*for (let index = 0; index < searchCoin.length; index++) {
+        for (let index = 0; index < searchCoin.length; index++) {
             const elem = searchCoin[index];
-            console.log(data[elem])
+            //console.log(data[elem].ask)
+            //console.log(CoinsContacoes[index].textContent)
+            if(data[elem].code === CoinsContacoes[index].textContent){
+                ValueCoinsCotacao[index].textContent = FormataValor(+data[elem].ask)
+            }
             
-        } */
-        searchCoin.forEach(e => {
-            /*let CoinCode = data[e].code;
-            let valueCoin = FormataValor(+data[e].ask);
-            //console.log(valueCoin)
-            ValueCoinsCotacao.forEach(elem => {
-                CoinsContacoes.forEach(element => {
-                    //console.log(element.textContent)
-                    if (element.textContent === CoinCode){
-                        elem.textContent = valueCoin;
-                    }
-                })
-                //console.log(elem);
-                //console.log(CoinCode)
-                //elem.textContent = valueCoin;
-            }) */
+        };
+    });
+    //---- end cotações
+
+    //conversor
+    const selectCoinConversor = document.querySelector('.container-converter .cx-input:nth-child(2) .select-coin h3');
+    const screenCoinConversor = document.querySelector('.container-converter .cx-input:nth-child(2) .select-coin h3 .chosen-coin')
+    const optionsCoinsConversor = document.querySelector('.container-converter .options-coin-converter');
+
+    CoinsContacoes.forEach(e => {
+        for (let index = 0; index < array.length; index++) {
+            const element = array[index];
+            if (e.textContent == element[0]){
+                //console.log(element)
+                optionsCoinsConversor.innerHTML += `<li>${element[0]} - ${element[1]}</li>`
+            }
+        }
+        //console.log(e.textContent);
+    });
+    const optionCoinConversor = document.querySelectorAll('.container-converter .options-coin-converter li')
+
+    selectCoinConversor.addEventListener('click',function(){
+        optionsCoinsConversor.style.display = 'block';
+    });
+    optionCoinConversor.forEach(e => {
+        e.addEventListener('click', function(){
+            screenCoinConversor.textContent = e.textContent;
+            optionsCoinsConversor.style.display = 'none';
         })
-        console.log(data)
-    })
-
-
-    //ScreenCotacaoUSDBRL.textContent = FormataValor(+dados.USDBRL.ask);
-    //ScreenCotacaoEURBRL.textContent = FormataValor(+dados.EURBRL.ask);
-    //ScreenCotacaoGBPBRL.textContent = FormataValor(+dados.GBPBRL.ask);
-    //ScreenCotacaoBTCBRL.textContent = FormataValor(+dados.BTCBRL.ask);
-
+    });
+    document.addEventListener('click', function(event){
+        if(!selectCoinConversor.contains(event.target) && !optionsCoinsConversor.contains(event.target)){
+            optionsCoinsConversor.style.display = 'none';
+        }
+    });
 
 });
 
