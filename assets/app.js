@@ -29,7 +29,6 @@ SearchNameMoedas().then(e => {
         }
 
         SearchOption.style.border = '';
-        //SearchOption.style.borderRadius = '15px 15px 0 0';
         SearchCoin(removerAcentos(inputValue.toUpperCase()));
         SelectCoin();
         
@@ -38,25 +37,24 @@ SearchNameMoedas().then(e => {
     buttoAdd.addEventListener('click', function(){
         IncluiCoin();
         OptionsCoinG.style.display = 'none';
-        //SearchOption.style.borderRadius = '15px';
     });
 
     document.addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
             IncluiCoin();
             OptionsCoinG.style.display = 'none';
-            //SearchOption.style.borderRadius = '15px';
-        }
+        };
     });
-    
-
 
     //---------- FUNCTIONS PARA O INPUT SEARCH
     function ListaMoedas(){
+        let html = '';
         dados.forEach(element => { 
-             OptionsCoinG.innerHTML += `<li>${element[0]} - ${element[1]}</li>`;
-             return SelectCoin();
+            html += `<li>${element[0]} - ${element[1]}</li>`;
         });
+
+        OptionsCoinG.innerHTML = html;
+        SelectCoin();
     };
 
     function SelectCoin(){
@@ -71,47 +69,24 @@ SearchNameMoedas().then(e => {
         });
     };
 
-    function SearchCoin(value){
+    function SearchCoin(value) {
         OptionsCoinG.innerHTML = '';
         OptionsCoinG.style.display = 'block';
 
-        switch (value.length) {
-            case 1:
-                dados.forEach(element => {
-                    if(element[0].startsWith(value,0) || removerAcentos(element[1]).toUpperCase().startsWith(value,0)){
-                        //console.log(element)
-                        return OptionsCoinG.innerHTML += `<li>${element[0]} - ${element[1]}</li>`;
-                    }
-                });
-                break;
-            
-            case 2:
-                dados.forEach(element => {
-                    //console.log(removerAcentos(element[1]))
-                    let check = `${element[0]} - ${element[1]}`
-                    //console.log(check.toUpperCase().includes(value));
-                    if(element[0].startsWith(value,0) || removerAcentos(element[1]).toUpperCase().startsWith(value,0) || check.toUpperCase().includes(value)){
-                        
-                        return OptionsCoinG.innerHTML += `<li>${element[0]} - ${element[1]}</li>`;
-                    }  
-                });
-                break;
-                
-            default:
-                dados.forEach(element => {
-                    let check = `${element[0]} - ${element[1]}`
-                    if(element[0].startsWith(value,0) || removerAcentos(element[1]).toUpperCase().startsWith(value,0) || check.toUpperCase().includes(value)){
-                        //console.log(element[0])
-                        return OptionsCoinG.innerHTML += `<li>${element[0]} - ${element[1]}</li>`;
-                    }
-                });
-                break;
-        };
-
-        if(OptionsCoinG.innerHTML === ''){
-            return OptionsCoinG.innerHTML = `<li>Não encontrado</li>`;
-        };
-    };
+        let html = '';
+        const filteredData = dados.filter(element => {
+            const text = `${element[0]} - ${element[1]}`;
+            return element[0].startsWith(value, 0) ||
+                   removerAcentos(element[1]).toUpperCase().startsWith(value, 0) ||
+                   text.toUpperCase().includes(value);
+        });
+        if (filteredData.length === 0) {
+            html = '<li>Não encontrado</li>';
+        } else {
+            html = filteredData.map(element => `<li>${element[0]} - ${element[1]}</li>`).join('');
+        }
+        OptionsCoinG.innerHTML = html;
+    }
 
     //function seleciona e valida a moeda
     function IncluiCoin(){
@@ -209,7 +184,6 @@ let chartGrap = new Chart(ctx, {
 });
 
 //------- tratando o input do conversor
-
 const inputValueCoin = document.querySelectorAll('.container-converter .cx-input .tag-input input[type="text"]');
 
 //melhorando o input do conversor
@@ -249,13 +223,10 @@ SearchNameMoedas().then(dados => {
     const joinedString = searchCotacoesAtual.join(',');
     //console.log(joinedString)
 
-
     //definindo os valores 
     SearchData(joinedString).then(data => {
         for (let index = 0; index < searchCoin.length; index++) {
             const elem = searchCoin[index];
-            //console.log(data[elem].ask)
-            //console.log(CoinsContacoes[index].textContent)
             if(data[elem].code === CoinsContacoes[index].textContent){
                 ValueCoinsCotacao[index].textContent = FormataValor(+data[elem].ask)
             }
@@ -269,17 +240,21 @@ SearchNameMoedas().then(dados => {
     const screenCoinConversor = document.querySelector('.container-converter .cx-input:nth-child(2) .select-coin h3 .chosen-coin')
     const optionsCoinsConversor = document.querySelector('.container-converter .options-coin-converter');
 
+    let html = '';
     CoinsContacoes.forEach(e => {
+        
         for (let index = 0; index < array.length; index++) {
             const element = array[index];
             if (e.textContent == element[0]){
                 //console.log(element)
-                optionsCoinsConversor.innerHTML += `<li>${element[0]} - ${element[1]}</li>`
+                html += `<li>${element[0]} - ${element[1]}</li>`
             }
         }
         //console.log(e.textContent);
     });
-    const optionCoinConversor = document.querySelectorAll('.container-converter .options-coin-converter li')
+    optionsCoinsConversor.innerHTML = html;
+
+    const optionCoinConversor = document.querySelectorAll('.container-converter .options-coin-converter li');
 
     selectCoinConversor.addEventListener('click',function(){
         optionsCoinsConversor.style.display = 'block';
@@ -295,6 +270,5 @@ SearchNameMoedas().then(dados => {
             optionsCoinsConversor.style.display = 'none';
         }
     });
-
-});
+}); 
 
