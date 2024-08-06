@@ -13,7 +13,7 @@
         <h1>Conversor de moedas</h1>    
     </header>
     <section class="section-search">
-        <label for="searchCoin">Selecione sua moeda base:</label>
+        <label for="searchCoin">Selecione a moeda base:</label>
         <div class="search">
             <div class="input-search">
                 <input type="search" id="searchCoin" name="search-coin" placeholder="BRL / Real Brasileiro">
@@ -24,7 +24,7 @@
             </div>
             <span class="material-symbols-outlined">arrow_forward</span>
             <div class="selected-coin">
-                <span>BRL - Real Brasileiro</span>
+                <span><!--BRL - Real Brasileiro--></span>
             </div>
         </div>
     </section>
@@ -32,24 +32,24 @@
         <section class="subSection-one">
             <div class="container-cotacao">
                 <div class="cx-cotacao">
-                    <h4>1 USD =</h4>
-                    <h2><span class="value-usdbrl">0,00</span>BRL</h2>
+                    <h4>1 <span id="coin-selectd-cotacao">USD</span> =</h4>
+                    <h2><span id="value-coin">0,00</span><span id="coin-global"></span></h2>
                     <div class="action">
                         <span class="material-symbols-outlined">edit</span>
                         <span class="material-symbols-outlined">delete</span>
                     </div>
                 </div>
                 <div class="cx-cotacao">  
-                    <h4>1 EUR =</h4>
-                    <h2><span class="value-eurbrl">0,00</span>BRL</h2>
+                    <h4>1 <span id="coin-selectd-cotacao">EUR</span> =</h4>
+                    <h2><span id="value-coin">0,00</span><span id="coin-global"></span></h2>
                     <div class="action">
                         <span class="material-symbols-outlined">edit</span>
                         <span class="material-symbols-outlined">delete</span>
                     </div>
                 </div>
                 <div class="cx-cotacao">  
-                    <h4>1 GBP =</h4>
-                    <h2><span class="value-gbpbrl">0,00</span>BRL</h2>
+                    <h4>1 <span id="coin-selectd-cotacao">GBP</span> =</h4>
+                    <h2><span id="value-coin">0,00</span><span id="coin-global"></span></h2>
                     <div class="action">
                         <span class="material-symbols-outlined">edit</span>
                         <span class="material-symbols-outlined">delete</span>
@@ -78,7 +78,6 @@
                 </span>    
             </div>
         </section>
-
         <section class="subSection-two">
             <div class="container-converter">
                 <div class="cx-input">
@@ -87,7 +86,7 @@
                         <div class=bar-bottom></div>
                     </div>
                     <div class="select-coin">
-                        <h3><span class="chosen-coin">Real Brasileiro</span><!--<span class="material-symbols-outlined">help</span>--></h3>
+                        <h3><span class="chosen-coin">BRL - Real Brasileiro</span><!--<span class="material-symbols-outlined">help</span>--></h3>
                     </div>
                 </div>
                 <div class="cx-input">
@@ -96,19 +95,24 @@
                         <div class=bar-bottom></div>
                     </div>
                     <div class="select-coin">
-                        <h3><span class="chosen-coin">Dolár Americano</span><span class="material-symbols-outlined">keyboard_arrow_down</span></h3>
+                        <h3><span class="chosen-coin">USD - Dólar Americano</span><span class="material-symbols-outlined">keyboard_arrow_down</span></h3>
+                        <ul class="options-coin-converter">
+                            <!--<li></li>-->
+                        </ul>
                     </div>
                 </div>
+
+                <!--
                 <div class="replace">
                     <span class="material-symbols-outlined">swap_vert</span>
-                </div>
+                </div>-->
             </div>
         </section>   
         
 
     </section>
     <script src="./assets/functions.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.js"></script><!-- grafico -->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.js"></script> grafico -->
     <script src="./assets/app.js"></script>
 </body>
 </html>
